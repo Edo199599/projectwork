@@ -14,20 +14,21 @@ class ModelloBook(ModelloBase):
     def __init__(self):
         self.dataframe = pd.read_csv(_FILE_PATH)
         self.df_pulito = self.dataframe_sistemato()
-        self.df_sistemato_successo_libro = self.sistemazione_dataframe_uno()
-        self.df_sistemato_successo_autore = self.sistemazione_dataframe_due()
+        # self.df_sistemato_successo_libro = self.sistemazione_dataframe_uno()
+        # self.df_sistemato_successo_autore = self.sistemazione_dataframe_due()
         # self.correlazione_spearman("voto_medio", "times_featured")
         # self.correlazione_spearman("numero_recensioni", "times_featured")
         # self.grafico_spearman("numero_recensioni", "times_featured")
         # self.individuazione_correlazioni()
-        self.individuazione_correlazioni_traccia2()
-        self.grafico_spearman_traccia2("avg_reviews", "books_count")
-        self.correlazione_spearman_traccia2("main_genre", "books_count")
-        self.grafico_spearman_traccia2("main_genre", "books_count")
-        self.grafico_ripartizione()
-        self.grafico_successo()
-        self.df_successo = self.dataframe_successo()
-        self.grafico_ripartizione_successo()
+        # self.individuazione_correlazioni_traccia2()
+        # self.grafico_spearman_traccia2("avg_reviews", "books_count")
+        # self.correlazione_spearman_traccia2("main_genre", "books_count")
+        # self.grafico_spearman_traccia2("main_genre", "books_count")
+        # self.grafico_ripartizione()
+        # self.grafico_successo()
+        # self.df_successo = self.dataframe_successo()
+        # self.grafico_ripartizione_successo()
+        self.creazione_colonne_id()
 
 
         # self.correlazione_spearman("prezzo", "times_featured")
@@ -88,7 +89,7 @@ class ModelloBook(ModelloBase):
     def individuazione_correlazioni(self):
         colonne_da_escludere = ["nome", "autore", "genere"]
         df_sistemato_successo_libro_numeriche = self.df_sistemato_successo_libro.drop(columns=colonne_da_escludere)
-        matrice_heatmap_correlazioni = df_sistemato_successo_libro_numeriche.corr()
+        matrice_heatmap_correlazioni = df_sistemato_successo_libro_numeriche.corr(method="spearman")
         plt.figure(figsize=(15,10))
         sns.heatmap(matrice_heatmap_correlazioni, annot=True, cmap="coolwarm", fmt=".2f")
         plt.title("Matrice di correlazione")
@@ -109,8 +110,6 @@ class ModelloBook(ModelloBase):
         plt.plot(x, retta_regressione, color="red", label="Regr. lineare")
         plt.show()
 
-        # mappa_ruoli = dict(zip(df_sistemato["job_title"].unique(), range(df_sistemato["job_title"].nunique())))
-        # df_sistemato["job_title_code"] = df_sistemato["job_title"].map(mappa_ruoli)
 
 # ------------------------------- TRACCIA 2 -------------------------------
 
@@ -174,8 +173,20 @@ class ModelloBook(ModelloBase):
         plt.ylabel("")
         plt.show()
 
+    def creazione_colonne_id(self):
+        mappa_autori = dict(zip(self.df_pulito["autore"].unique(), range(self.df_pulito["autore"].nunique())))
+        self.df_pulito["id_autore"] = self.df_pulito["autore"].map(mappa_autori) +1
+        mappa_generi = dict(zip(self.df_pulito["genere"].unique(), range(self.df_pulito["genere"].nunique())))
+        self.df_pulito["id_genere"] = self.df_pulito["genere"].map(mappa_generi) + 1
+        # con pandas trasformare il dataframe in un file csv si fa con il metodo to_csv()
+        # nel nostro caso diventa df_pulito.to_csv("dataset/data_book_pulito.csv", index=False)
+        # index = False per non scrivere l'indice del dataframe nel file csv
+        df_autore = self.df_pulito["autore"].drop_duplicates()
+        df_autore.to_csv("dataset/tabella.autore.csv", index=False, header=False)
+        print(self.df_pulito.head().to_string())
+
 modello = ModelloBook()
-modello.analisi_generali(modello.df_sistemato_successo_autore)
+# modello.analisi_generali(modello.df_sistemato_successo_autore)
 # print(modello.df_sistemato.head().to_string())
 # print(modello.df_sistemato.groupby("nome").count().sort_values("autore", ascending=True).to_string())
 # modello.analisi_valori_univoci(modello.df_sistemato)
