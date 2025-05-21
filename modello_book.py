@@ -181,9 +181,14 @@ class ModelloBook(ModelloBase):
         # con pandas trasformare il dataframe in un file csv si fa con il metodo to_csv()
         # nel nostro caso diventa df_pulito.to_csv("dataset/data_book_pulito.csv", index=False)
         # index = False per non scrivere l'indice del dataframe nel file csv
-        df_autore = self.df_pulito["autore"].drop_duplicates()
-        df_autore.to_csv("dataset/tabella.autore.csv", index=False, header=False)
-        print(self.df_pulito.head().to_string())
+        # df_autore = self.df_pulito["autore"].drop_duplicates()
+        # df_autore.to_csv("dataset/tabella.autore.csv", index=False, header=False)
+        colonne_da_droppare = ["autore", "genere"]
+        colonne_da_reindexare = ["nome", "id_autore", "voto_medio", "numero_recensioni", "prezzo", "anno", "id_genere"]
+        df_pulito = self.df_pulito.drop(columns=colonne_da_droppare)
+        df_pulito = df_pulito.reindex(columns=colonne_da_reindexare)
+        # df_pulito.to_csv("dataset/tabella_libri.csv", index=False, header=False)
+        return 0
 
 modello = ModelloBook()
 # modello.analisi_generali(modello.df_sistemato_successo_autore)
