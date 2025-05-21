@@ -1,0 +1,6 @@
+Librerie istallate:
+- Pandas (creazione e gestione di dataframe) -> pip3 intall pandas
+- Matplotlib (visualizzazione dei dati) -> pip3 install matplotlib
+- Scipy (Analisi indici statistici) -> pip3 install scipy
+- Scikit Learn (preprocessing e modelli Machine Learning) -> pip3 install scikit-learn
+- Seaborn (funzionalità grafiche e dataset, alternativa a Matplotlib) -> pip3 install seaborn
