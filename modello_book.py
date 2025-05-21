@@ -14,8 +14,8 @@ class ModelloBook(ModelloBase):
     def __init__(self):
         self.dataframe = pd.read_csv(_FILE_PATH)
         self.df_pulito = self.dataframe_sistemato()
-        # self.df_sistemato_successo_libro = self.sistemazione_dataframe_uno()
-        # self.df_sistemato_successo_autore = self.sistemazione_dataframe_due()
+        self.df_sistemato_successo_libro = self.sistemazione_dataframe_uno()
+        self.df_sistemato_successo_autore = self.sistemazione_dataframe_due()
         # self.correlazione_spearman("voto_medio", "times_featured")
         # self.correlazione_spearman("numero_recensioni", "times_featured")
         # self.grafico_spearman("numero_recensioni", "times_featured")
@@ -26,7 +26,7 @@ class ModelloBook(ModelloBase):
         # self.grafico_spearman_traccia2("main_genre", "books_count")
         # self.grafico_ripartizione()
         # self.grafico_successo()
-        # self.df_successo = self.dataframe_successo()
+        self.df_successo = self.dataframe_successo()
         # self.grafico_ripartizione_successo()
         self.creazione_colonne_id()
 
@@ -164,6 +164,7 @@ class ModelloBook(ModelloBase):
 
         # creiamo un secondo database con solo gli autori che abbiano pubblicato più di 7 libri
         # df_successo = df[(df["books_count"] > 6) & (df["avg_rating"] > 4.5)]
+        print(df_successo.to_string())
         return df_successo
 
     def grafico_ripartizione_successo(self):
@@ -191,7 +192,7 @@ class ModelloBook(ModelloBase):
         return 0
 
 modello = ModelloBook()
-# modello.analisi_generali(modello.df_sistemato_successo_autore)
+modello.analisi_generali(modello.df_sistemato_successo_autore)
 # print(modello.df_sistemato.head().to_string())
 # print(modello.df_sistemato.groupby("nome").count().sort_values("autore", ascending=True).to_string())
 # modello.analisi_valori_univoci(modello.df_sistemato)
