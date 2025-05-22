@@ -8,7 +8,6 @@ class Autore:
 
     def serializzazione(self):
         return {
-            "id": self.id,
             "nome": self.nome,
             "libri": [libro.serializzazione_per_autore() for libro in self.libri]
         }
